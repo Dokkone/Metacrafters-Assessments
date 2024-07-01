@@ -11,8 +11,9 @@ This repository contains a basic ERC20 token smart contract implemented in Solid
     - [Using HardHat](#using-hardhat)
 4. [Interacting with the Contract](#interacting-with-the-contract)
 5. [Security Considerations](#security-considerations)
-6. [License](#license)
-7. [Contributing](#contributing)
+6. [Authors](#authors)
+7. [License](#license)
+8. [Contributing](#contributing)
 
 ## Contract Details
 
