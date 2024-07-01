@@ -2,6 +2,18 @@
 
 This repository contains a basic ERC20 token smart contract implemented in Solidity. The contract allows for token minting by the owner, as well as token transfer and burning by any user.
 
+## Table of Contents
+
+1. [Contract Details](#contract-details)
+2. [Features](#features)
+3. [Deployment](#deployment)
+    - [Using Remix](#using-remix)
+    - [Using HardHat](#using-hardhat)
+4. [Interacting with the Contract](#interacting-with-the-contract)
+5. [Security Considerations](#security-considerations)
+6. [License](#license)
+7. [Contributing](#contributing)
+
 ## Contract Details
 
 - **Name:** MyToken
@@ -27,20 +39,69 @@ To deploy this contract, you can use tools like Remix (online Solidity IDE) or H
 5. Select "MyToken" from the contract dropdown.
 6. Click "Deploy" and confirm the transaction.
 
-### Interacting with the Contract
+### Using HardHat
+
+1. Install HardHat:
+   ```bash
+   npm install --save-dev hardhat
+2. Create a new HardHat project:
+   ```bash
+   npx hardhat
+3. Write your contract in contracts/MyToken.sol.
+4. Compile the contract:
+   ```bash
+   npx hardhat compile
+5. Deploy the contract by creating a scripts/deploy.js file:
+   ```bash
+   async function main() {
+   const MyToken = await ethers.getContractFactory("MyToken");
+   const myToken = await MyToken.deploy();
+   await myToken.deployed();
+   console.log("MyToken deployed to:", myToken.address);
+   }
+
+   main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+   });
+6. Run the deployment script:
+   ```bash
+   npx hardhat run scripts/deploy.js --network <network-name>
+
+## Interacting with the Contract
 
 After deployment, interact with the contract:
 
-- **Mint Tokens:** Owner can mint tokens to any address using the `mint` function.
-- **Transfer Tokens:** Users can transfer tokens to other addresses using the `transfer` function.
-- **Burn Tokens:** Users can burn their own tokens using the `burn` function.
+- **Mint Tokens:** Owner can mint tokens to any address using the mint function.
+  ```bash
+   await myToken.mint("0xRecipientAddress", amount);
+- **Transfer Tokens:** Users can transfer tokens to other addresses using the transfer function.
+  ```bash
+   await myToken.transfer("0xRecipientAddress", amount);
+- **Burn Tokens:** Users can burn their own tokens using the burn function.
+  ```bash
+   await myToken.burn(amount);
 
 ## Security Considerations
 
-- Ensure proper access control for minting tokens (`onlyOwner` modifier).
+- Ensure proper access control for minting tokens (onlyOwner modifier).
 - Test thoroughly before deploying to a live network.
 - Consider using libraries like OpenZeppelin for more robust and audited token contracts.
 
+## Authors
+
+Kurt Lawrence Dela Cruz
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributions
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+```
+This raw markdown code can be copied and pasted directly into your `README.md` file.
+```
