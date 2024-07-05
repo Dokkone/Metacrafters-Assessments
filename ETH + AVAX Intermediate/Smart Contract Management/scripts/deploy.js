@@ -1,11 +1,11 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Assessment = await hre.ethers.getContractFactory("Assessment");
-  const assessment = await Assessment.deploy();
-  await assessment.deployed();
+  const LibraryCard = await hre.ethers.getContractFactory("LibraryCard");
+  const libraryCard = await LibraryCard.deploy();
+  await libraryCard.deployed();
 
-  console.log(`Assessment contract deployed to ${assessment.address}`);
+  console.log(`LibraryCard contract deployed to ${libraryCard.address}`);
 }
 
 main().catch((error) => {
