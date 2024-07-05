@@ -1,47 +1,37 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ErrorHandling {
+contract StudentContract {
+    address public owner;
+    mapping(address => uint) public studentGrades;
 
-    uint256 public value;
-
-    // Function to set a value with require statement
-    function setValueWithRequire(uint256 _value) public {
-        // Use require to validate the input
-        require(_value > 0, "Value must be greater than zero");
-        value = _value;
+    constructor() {
+        owner = msg.sender;
     }
 
-    // Function to set a value with assert statement
-    function setValueWithAssert(uint256 _value) public {
-        value = _value;
-        // Use assert to check for a condition that should always be true
-        assert(value == _value);
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner");
+        _;
     }
 
-    // Function to set a value with revert statement
-    function setValueWithRevert(uint256 _value) public {
-        if (_value == 0) {
-            // Use revert to handle an invalid input
-            revert("Value cannot be zero");
+    // Example of using require()
+    function setGrade(address student, uint grade) public onlyOwner {
+        require(grade >= 0 && grade <= 100, "Invalid grade, it must be between 0 and 100");
+        studentGrades[student] = grade;
+    }
+
+    // Example of using assert()
+    function getGrade(address student) public view returns (uint) {
+        uint grade = studentGrades[student];
+        assert(grade >= 0 && grade <= 100);
+        return grade;
+    }
+
+    // Example of using revert()
+    function changeOwner(address newOwner) public onlyOwner {
+        if (newOwner == address(0)) {
+            revert("Invalid address for new owner");
         }
-        value = _value;
-    }
-    
-    // Function to demonstrate a combined usage
-    function combinedUsage(uint256 _value) public {
-        // Require statement
-        require(_value <= 100, "Value must be 100 or less");
-        
-        // Some logic that might cause a state inconsistency
-        value = _value;
-
-        // Assert statement
-        assert(value == _value);
-
-        // Conditional logic with revert
-        if (_value % 2 != 0) {
-            revert("Value must be an even number");
-        }
+        owner = newOwner;
     }
 }
