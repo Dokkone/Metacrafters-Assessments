@@ -1,42 +1,90 @@
-# Error Handling Contract
+# StudentContract
 
-This Solidity smart contract demonstrates various error handling techniques within Ethereum smart contracts using Solidity version 0.8.0. It showcases the use of `require`, `assert`, and `revert` statements for validating inputs and maintaining contract integrity.
+This Solidity smart contract demonstrates the usage of `require()`, `assert()`, and `revert()` statements through real-life scenarios for a student. The contract allows setting and getting student grades and changing the contract owner.
 
-## Overview
+## Features
 
-The contract provides four main functionalities:
+- **Set Grades**: Only the owner can set student grades within a valid range (0 to 100).
+- **Get Grades**: Anyone can get the grade of a student, ensuring the grade is within the valid range.
+- **Change Owner**: Only the owner can change the ownership of the contract to a valid address.
 
-1. **Setting a Value with Require Statement**: Demonstrates the use of `require` for validating that the input value is greater than zero.
-2. **Setting a Value with Assert Statement**: Shows how `assert` can be used to ensure a condition that should always be true (in this case, the value being equal to itself).
-3. **Setting a Value with Revert Statement**: Utilizes `revert` to handle cases where the input value is not valid (e.g., zero).
-4. **Combined Usage**: Combines all three methods (`require`, `assert`, and `revert`) to showcase a comprehensive approach to error handling in a single function.
+## Smart Contract Code
 
-## Prerequisites
+   ```solidity
+   // SPDX-License-Identifier: MIT
+   pragma solidity ^0.8.0;
+    
+    contract StudentContract {
+        address public owner;
+        mapping(address => uint) public studentGrades;
+    
+        constructor() {
+            owner = msg.sender;
+        }
+    
+        modifier onlyOwner() {
+            require(msg.sender == owner, "You are not the owner");
+            _;
+        }
+    
+        // Example of using require()
+        function setGrade(address student, uint grade) public onlyOwner {
+            require(grade >= 0 && grade <= 100, "Invalid grade, it must be between 0 and 100");
+            studentGrades[student] = grade;
+        }
+    
+        // Example of using assert()
+        function getGrade(address student) public view returns (uint) {
+            uint grade = studentGrades[student];
+            assert(grade >= 0 && grade <= 100);
+            return grade;
+        }
+    
+        // Example of using revert()
+        function changeOwner(address newOwner) public onlyOwner {
+            if (newOwner == address(0)) {
+                revert("Invalid address for new owner");
+            }
+            owner = newOwner;
+        }
+    }
+   ```
+## Explanation
 
-- Solidity compiler version 0.8.0 or higher.
-- An Ethereum development environment setup, such as Truffle or Hardhat.
+1. **require():**
+   
+- **Code:** ```require(grade >= 0 && grade <= 100, "Invalid grade, it must be between 0 and 100");```
+- **Scenario:** Ensures the grade is within a valid range (0 to 100). If not, the function stops with an error message. Similar to a student being told to input a valid grade.
+  
+2. **assert():**
+   
+- **Code:** ```assert(grade >= 0 && grade <= 100);```
+- **Scenario:** Checks that the grade is always within a valid range. Similar to a teacher verifying the correctness of recorded grades.
 
-## Deployment
+3. **revert():**
+   
+- **Code:** ```require(grade >= 0 && grade <= 100, "Invalid grade, it must be between 0 and 100");```
+- **Scenario:** Reverts the transaction if an invalid address is provided for the new owner. Similar to stopping the process if the new student council president's information is invalid.
 
-To deploy this contract, follow these steps:
+## Usage
 
-1. Save the contract code in a file named `ErrorHandling.sol`.
-2. Ensure you have a local Ethereum blockchain running (e.g., Ganache).
-3. Use a deployment script compatible with your development framework (Truffle/Hardhat) to compile and deploy the contract to your local blockchain.
+1. **Deploy the Contract:** Deploy the `StudentContract` using Remix or HardHat.
+2. **Set Grade:** Call the `setGrade` function with a student's address and a valid grade (0-100) as the contract owner.
+3. **Get Grade:** Call the `getGrade` function with a student's address to get the grade.
+4. **Change Owner:** Call the `changeOwner` function with a valid new owner's address as the contract owner.
 
-## Interaction
+## Authors
 
-### Setting Values
-
-- **setValueWithRequire(uint256)**: Sets the contract's value with a `require` statement to ensure the value is greater than zero.
-- **setValueWithAssert(uint256)**: Sets the contract's value and uses an `assert` statement to confirm the value has been correctly set.
-- **setValueWithRevert(uint256)**: Attempts to set the contract's value but reverts if the value is zero.
-- **combinedUsage(uint256)**: Demonstrates a combination of `require`, `assert`, and `revert` statements to enforce various conditions on the input value.
-
-### Testing
-
-After deploying the contract, you can interact with its functions through your development framework's console or via transactions on your local blockchain. Ensure to test each function thoroughly to understand how they behave under different conditions.
+Kurt Lawrence Dela Cruz
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributions
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+```
+This raw markdown code can be copied and pasted directly into your `README.md` file.
+```
