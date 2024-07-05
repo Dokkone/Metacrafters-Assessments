@@ -1,6 +1,6 @@
-# Metacrafters Assessment DApp
+# Metacrafters Assessment LibraryCard Smart Contract
 
-This project is a simple yet powerful demonstration of a decentralized application (DApp) built on the Ethereum blockchain. It leverages smart contracts to allow users to set and retrieve values stored on the blockchain, showcasing the potential of decentralized technologies.
+The Student Library Card System is a decentralized application built on Ethereum that manages library books' registration, borrowing, and returning processes using smart contracts.
 
 ## Table of Contents
 
@@ -11,8 +11,10 @@ This project is a simple yet powerful demonstration of a decentralized applicati
   - [Running Locally](#running-locally)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
-- [Contributing](#contributing)
+- [Authors](#authors)
 - [License](#license)
+- [Contributions](#contributions)
+
 
 ## Prerequisites
 
@@ -27,13 +29,48 @@ Before you begin, ensure you have installed the following software:
 
 ### Installation
 
-1. Clone the repository:
-Make sure to replace `<repository-url>` and `<repository-directory>` with the actual values.
+Setting Up Development Environment
 
-2. Install NPM packages
+Open Terminal 1 and run:
+
+```bash
+npx hardhat node
+```
+
+Open Terminal 2 and run:
+
+```bash
+npx hardhat run --network localhost scripts/deploy.js
+```
+
+Open Terminal 3 and run:
+
+```bash
+npm run dev
+```
+
 ### Deployment
 
-To deploy the smart contract, execute:
+MetaMask Configuration
+
+Install MetaMask Extension
+Install the MetaMask extension in your web browser from [here](https://metamask.io/).
+
+Manually add a new network in MetaMask with the following details:
+
+- **Network Name**: (can be anything you like)
+- **RPC URL**: http://127.0.0.1:8545/
+- **Chain ID**: 31337
+- **Currency Symbol**: ETH
+
+Click Save and switch to your newly created network.
+
+Go back to the terminal where you started the Hardhat node (`npx hardhat node`).
+
+Copy the private key of Account 0.
+
+Import this account into MetaMask.
+
 ### Running Locally
 
 1. Start the Hardhat node:
@@ -46,31 +83,36 @@ To deploy the smart contract, execute:
 
 Then, open http://localhost:3000 in your browser to access the application.
 
+After following the above steps, your local blockchain and front-end application should be up and running. You can now interact with the deployed smart contracts through the front-end interface.
+
 ## Project Structure
 
-- `contracts/Assessment.sol`: The Solidity smart contract.
+- `contracts/LibraryCard.sol`: The Solidity smart contract.
 - `scripts/deploy.js`: Script for deploying the smart contract.
 - `pages/index.js`: React component for the frontend interface.
 - `artifacts/`: Directory containing the compiled smart contract and ABI files.
 
 ## Usage
 
-1. Ensure MetaMask is installed and connected to the local Ethereum node.
-2. Navigate to http://localhost:3000 in your browser.
-3. Connect your MetaMask wallet to the application.
-4. Use the input field to set a new value in the contract.
-5. The current stored value will be displayed on the page.
+1. **registerBook**:
+    - User can registers book in the system and stores in the account.
+2. **borrowBook**:
+    - Users can borrow book depending on book name and gets taken out of the system and account.
+3. **returnBook**:
+    - Users can return the book storing it once again in the system and account.
 
-## Contributing
+## Authors
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Kurt Lawrence Dela Cruz
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributions
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+```
+This raw markdown code can be copied and pasted directly into your `README.md` file.
+```
