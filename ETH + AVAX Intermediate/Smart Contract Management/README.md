@@ -94,11 +94,13 @@ After following the above steps, your local blockchain and front-end application
 
 ## Usage
 
-1. **registerBook**:
+1. **RegistrationFee**:
+    - User must first pay a registration fine before storing and take books out of the system.
+2. **registerBook**:
     - User can registers book in the system and stores in the account.
-2. **borrowBook**:
+3. **borrowBook**:
     - Users can borrow book depending on book name and gets taken out of the system and account.
-3. **returnBook**:
+4. **returnBook**:
     - Users can return the book storing it once again in the system and account.
 
 ## Authors
