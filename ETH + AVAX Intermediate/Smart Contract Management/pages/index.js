@@ -8,6 +8,7 @@ export default function HomePage() {
   const [libraryCard, setLibraryCard] = useState(undefined);
   const [books, setBooks] = useState([]);
   const [bookName, setBookName] = useState("");
+  const [hasPaidFee, setHasPaidFee] = useState(false);
 
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with your deployed contract address
   const libraryCardABI = libraryCardAbi.abi;
@@ -50,6 +51,17 @@ export default function HomePage() {
     const libraryCardContract = new ethers.Contract(contractAddress, libraryCardABI, signer);
 
     setLibraryCard(libraryCardContract);
+    fetchRegisteredBooks(libraryCardContract);
+  };
+
+  const payRegistrationFee = async () => {
+    if (libraryCard) {
+      const tx = await libraryCard.payRegistrationFee({
+        value: ethers.utils.parseEther("0.01"), // Set the same registration fee as in the contract
+      });
+      await tx.wait();
+      setHasPaidFee(true);
+    }
   };
 
   const registerBook = async () => {
@@ -79,6 +91,12 @@ export default function HomePage() {
     }
   };
 
+  const fetchRegisteredBooks = async (libraryCardContract) => {
+    const registeredBooks = await libraryCardContract.queryFilter("BookRegistered");
+    const booksList = registeredBooks.map(event => ({ name: event.args.book, borrowed: false }));
+    setBooks(booksList);
+  };
+
   const initUser = () => {
     if (!ethWallet) {
       return <p>Please install MetaMask to use this Library Card system.</p>;
@@ -86,6 +104,17 @@ export default function HomePage() {
 
     if (!account) {
       return <button className="btn connect" onClick={connectAccount}>Connect MetaMask Wallet</button>;
+    }
+
+    if (!hasPaidFee) {
+      return (
+        <div className="card">
+          <h2>Library Card</h2>
+          <p><strong>Account:</strong> {account}</p>
+          <p>Please pay the registration fee of 0.01 ETH to register books.</p>
+          <button className="btn pay" onClick={payRegistrationFee}>Pay Registration Fee</button>
+        </div>
+      );
     }
 
     return (
@@ -167,6 +196,12 @@ export default function HomePage() {
         }
         .btn.connect:hover {
           background-color: #e68900;
+        }
+        .btn.pay {
+          background-color: #e91e63;
+        }
+        .btn.pay:hover {
+          background-color: #c2185b;
         }
         .btn.register {
           background-color: #4caf50;
